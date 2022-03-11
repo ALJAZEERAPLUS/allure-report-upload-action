@@ -1,0 +1,27 @@
+name: Allure Report Upload for GitHub Actions
+description: Upload allure report to GitHub Actions
+author: Victor Hugo dos Santos (vhsantos26)
+inputs:
+  allure-results-dir:
+    description: 'Allure results directory'
+    required: true
+  allure-server-url:
+    description: 'The URL of allure server'
+    required: true
+    default: http://localhost:5050
+  allure-project-id:
+    description: 'The ID of allure project'
+    required: true
+  run-id:
+    description: 'The Github Actions Workflow Run ID'
+    required: false
+    default: ${{ github.run_id }}
+outputs:
+  allure-report-url:
+    description: 'The URL of allure report'
+runs:
+  using: 'node12'
+  main: src/index.js
+branding:
+  icon: upload-cloud
+  color: green
