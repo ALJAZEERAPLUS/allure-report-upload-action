@@ -14,19 +14,18 @@ async function run() {
     const executionFrom = `https://github.com/${owner}/${repo}/actions/runs/${runId}`
     const executionType = 'github'
 
-    resultsDir = process.env.PWD + '/' + allureResultsDir
     resultsFiles = []
 
-    fs.readdir(resultsDir, async function (err, files) {
+    fs.readdir(allureResultsDir, async function (err, files) {
       if (err) {
         core.setFailed(err.message)
       } else if (!files.length) {
-        core.setFailed('No files found in ' + resultsDir)
+        core.setFailed('No files found in ' + allureResultsDir)
       } else {
         files.forEach(function (file) {
           let result = {}
           result['file_name'] = file
-          result['content_base64'] = fs.readFileSync(resultsDir + file).toString('base64')
+          result['content_base64'] = fs.readFileSync(allureResultsDir + file).toString('base64')
           resultsFiles.push(result)
         })
 
