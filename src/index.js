@@ -16,12 +16,16 @@ async function run() {
 
     resultsFiles = []
 
-    fs.readdir(allureResultsDir, async function (err, files) {
+    fs.readdir(allureResultsDir, { withFileTypes: true }, async function (err, artifacts) {
       if (err) {
         core.setFailed(err.message)
-      } else if (!files.length) {
+      } else if (!artifacts.length) {
         core.setFailed('No files found in ' + allureResultsDir)
       } else {
+        const files = artifacts
+          .filter(artifact => artifact.isFile())
+          .map(artifact => artifact.name);
+
         files.forEach(function (file) {
           let result = {}
           result['file_name'] = file
